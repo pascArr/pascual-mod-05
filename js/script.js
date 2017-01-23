@@ -95,13 +95,23 @@ function buildAndShowHomeHTML (categories) {
 
   // Load home snippet page
   $ajaxUtils.sendGetRequest(
-    homeHtmlUrl, // "snippets/home-snippet.html"
+    homeHtmlUrl,
     function (homeHtml) {
+      // Given array of category objects, returns a random category object.
+      function chooseRandomCategory (categories) {
+      
+      // Choose a random index into the array (from 0 inclusively until array length (exclusively))
+      var randomArrayIndex = Math.floor(Math.random() * categories.length);
+
+      // return category object with that randomArrayIndex
+      return categories[randomArrayIndex];
+}
 
       // TODO: STEP 2: Here, call chooseRandomCategory, passing it retrieved 'categories'
       // Pay attention to what type of data that function returns vs what the chosenCategoryShortName
       // variable's name implies it expects.
-      var chosenCategoryShortName = 
+      var chosenCategoryShortName = categories[randomArrayIndex].short_name;
+
 
 
       // TODO: STEP 3: Substitute {{randomCategoryShortName}} in the home html snippet with the
@@ -114,6 +124,11 @@ function buildAndShowHomeHTML (categories) {
       // $dc.loadMenuItems('L')
       // Hint: you need to surround the chosen category short name with something before inserting
       // it into the home html snippet.
+
+      short_name = "{{" 
+      short_name += chosenCategoryShortName + "}}";
+        insertProperty(html, portionPropName, portionValue);
+      return html;
       //
       // var homeHtmlToInsertIntoMainPage = ....
 
@@ -128,14 +143,7 @@ function buildAndShowHomeHTML (categories) {
 }
 
 
-// Given array of category objects, returns a random category object.
-function chooseRandomCategory (categories) {
-  // Choose a random index into the array (from 0 inclusively until array length (exclusively))
-  var randomArrayIndex = Math.floor(Math.random() * categories.length);
 
-  // return category object with that randomArrayIndex
-  return categories[randomArrayIndex];
-}
 
 
 // Load the menu categories view

@@ -95,22 +95,45 @@ function buildAndShowHomeHTML (categories) {
 
   // Load home snippet page
   $ajaxUtils.sendGetRequest(
-    homeHtmlUrl,
-    function (homeHtml) {
-      // Given array of category objects, returns a random category object.
-      function chooseRandomCategory (categories) {
-      
-      // Choose a random index into the array (from 0 inclusively until array length (exclusively))
-      var randomArrayIndex = Math.floor(Math.random() * categories.length);
+    categoriesTitleHtml,
+    function (categoriesTitlesHtml){
+      $ajaxUtils.sendGetRequest(
+        categoryHtml,
+        function (categoryHtml){
+          var categoriesViewHtml = buildCategoriesViewHtml(categories, categoriesTitleHtml, categoryHtml);
+          insertHtml("#main-content", categoriesViewHtml);
+        },
+        false);
+    },
+    false);
 
-      // return category object with that randomArrayIndex
-      return categories[randomArrayIndex];
-}
+function buildCategoriesViewHtml(categories, categoriesTitleHtml, categoryHtml){
+  var finalHtml = categoriesTitleHtml;
+  finalHtml += "<section class='row'>";
+  for(var i = 0; i < categories.length; i ++){
+    var html = categoryHtml;
+    var name = " " + categories[i].name;
+    var short_name = categories[i].short_name;
+
+  html = insertProperty(html, "name", name);
+  html = insertProperty(html, "short_name", short_name);
+  finalHtml += html;}
+
+  finalHtml += "</section>";
+
+  return finalHtml}
+
+  
+
+
+    
+      
+
 
       // TODO: STEP 2: Here, call chooseRandomCategory, passing it retrieved 'categories'
       // Pay attention to what type of data that function returns vs what the chosenCategoryShortName
       // variable's name implies it expects.
-      var chosenCategoryShortName = categories[randomArrayIndex].short_name;
+      //var chosenCategoryShortName = chooseRandomCategory (categories);
 
 
 
@@ -124,11 +147,6 @@ function buildAndShowHomeHTML (categories) {
       // $dc.loadMenuItems('L')
       // Hint: you need to surround the chosen category short name with something before inserting
       // it into the home html snippet.
-
-      short_name = "{{" 
-      short_name += chosenCategoryShortName + "}}";
-        insertProperty(html, portionPropName, portionValue);
-      return html;
       //
       // var homeHtmlToInsertIntoMainPage = ....
 
@@ -138,12 +156,19 @@ function buildAndShowHomeHTML (categories) {
       // of how to do that.
       // ....
 
-    },
-    false); // False here because we are getting just regular HTML from the server, so no need to process JSON.
+    //},
+    //false); // False here because we are getting just regular HTML from the server, so no need to process JSON.
 }
 
 
+// Given array of category objects, returns a random category object.
+function chooseRandomCategory (categories) {
+  // Choose a random index into the array (from 0 inclusively until array length (exclusively))
+  var randomArrayIndex = Math.floor(Math.random() * categories.length);
 
+  // return category object with that randomArrayIndex
+  return categories[randomArrayIndex];
+}
 
 
 // Load the menu categories view

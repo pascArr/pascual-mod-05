@@ -96,7 +96,7 @@ function buildAndShowHomeHTML (categories) {
   // Load home snippet page
   $ajaxUtils.sendGetRequest(
     categoriesTitleHtml,
-    function (categoriesTitlesHtml){
+    function (categoriesTitleHtml){
       $ajaxUtils.sendGetRequest(
         categoryHtml,
         function (categoryHtml){

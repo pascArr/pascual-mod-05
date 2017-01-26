@@ -95,33 +95,21 @@ function buildAndShowHomeHTML (categories) {
 
   // Load home snippet page
   $ajaxUtils.sendGetRequest(
-    categoriesTitleHtml,
-    function (categoriesTitleHtml){
+    homeHtmlUrl,
+    function (homeHtml) {
       $ajaxUtils.sendGetRequest(
-        categoryHtml,
-        function (categoryHtml){
-          var categoriesViewHtml = buildCategoriesViewHtml(categories, categoriesTitleHtml, categoryHtml);
-          insertHtml("#main-content", categoriesViewHtml);
-        },
-        false);
-    },
-    false);
-
-function buildCategoriesViewHtml(categories, categoriesTitleHtml, categoryHtml){
-  var finalHtml = categoriesTitleHtml;
-  finalHtml += "<section class='row'>";
-  for(var i = 0; i < categories.length; i ++){
-    var html = categoryHtml;
-    var name = " " + categories[i].name;
-    var short_name = categories[i].short_name;
-
-  html = insertProperty(html, "name", name);
-  html = insertProperty(html, "short_name", short_name);
-  finalHtml += html;}
-
-  finalHtml += "</section>";
-
-  return finalHtml}
+        categories,
+        function(categories){
+          var chosenCategoryShortName = chooseRandomCategory (categories);
+      //var randomCategory = "{{" + chosenCategoryShortName.short_name + "}}";
+      //insertHtml("#main-content", randomCategory);
+          var homeHtmlToInsertIntoMainPage = insertProperty (homeHtmlUrl, randomCategoryShortName, chosenCategoryShortName);
+          insertHtml("#main-content", homeHtmlToInsertIntoMainPage);
+          },
+        true);
+     
+}
+false);
 
   
 

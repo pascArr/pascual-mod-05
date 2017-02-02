@@ -92,32 +92,25 @@ $ajaxUtils.sendGetRequest(
 // Builds HTML for the home page based on categories array
 // returned from the server.
 function buildAndShowHomeHTML (categories) {
-
-  // Load home snippet page
-  $ajaxUtils.sendGetRequest(
-   homeHtmlUrl,
-  // Load title snippet of categories page
-   function (homeHtmlUrl) {
-   	var chosenCategoryShortName = chooseRandomCategory (categories);
-  // Retrieve single category snippet
-    $ajaxUtils.sendGetRequest(
-    	categoryHtml,
-    	function (categoryHtml) {
-  // Switch CSS class active to menu button
-        	switchMenuToActive();
-        	var categoriesViewHtml = 
-          		buildCategoriesViewHtml(chosenCategoryShortName,
-          							categoriesTitleHtml,
-          							categoryHtml);
-          	insertHtml("#main-content", categoriesViewHtml);
+	$ajaxUtils.sendGetRequest(
+   		homeHtmlUrl,
+  		function (homeHtmlUrl) {
+  			$ajaxUtils.sendGetRequest(
+  				homeHtmlUrl,
+  				function (categories) {
+  					switchMenuToActive();
+  					var chosenCategoryShortName = 
+  					chooseRandomeCategory(categories);
+  					var myPropValue = insertProperty(	homeHtmlUrl, 
+   														randomCategoryShortName,
+   														"{{" + chosenCategoryShortName + "}}");
+  					insertHtml("#main-content", myPropValue);
         },
         false);
     },
     false);
-}
 
-
-
+   				 
 
 // Given array of category objects, returns a random category object.
 function chooseRandomCategory (categories) {
@@ -128,6 +121,8 @@ function chooseRandomCategory (categories) {
   // return category object with that randomArrayIndex
   return categories[randomArrayIndex];
   
+}
+
 }
 
 
